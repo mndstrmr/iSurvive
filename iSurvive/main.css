@@ -1,0 +1,36 @@
+body {
+    font-family: 'Work Sans', sans-serif;
+    color: white;
+}
+
+.ui {
+    transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+    pointer-events: none;
+}
+
+.death {
+    background-color: rgba(231, 76, 60, 0.5);
+    z-index: 1000;
+}
+
+.ui .center {
+    width: 70%;
+    font-size: 150%;
+}
+
+.center * {
+    margin: 0;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.hidden {
+    opacity: 0;
+}
