@@ -164,6 +164,12 @@ declare module Osmium {
         }
     }
 
+    class Random {
+        static integer(min: Number, max: Number): Number;
+        static choice<T>(array: T[]): T;
+        static uniform(min: Number, max: Number): Number;
+    }
+
     class Element {
         position: Vector;
         rotation: Number;

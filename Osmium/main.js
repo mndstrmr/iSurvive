@@ -342,6 +342,17 @@ const Osmium = {
                 start = now;
             }, this.sleep);
         }
+    },
+    Random: {
+        integer: function(min, max) {
+            return parseInt(Math.random() * (max - min + 1)) + min;
+        },
+        choice: function(list) {
+            return list[Osmium.Random.integer(0, list.length - 1)];
+        },
+        uniform: function(min, max) {
+            return Math.random() * (max - min + 1) + min;
+        }
     }
 };
 Osmium.KeyHandler = class extends Osmium.EventEmitter {
@@ -409,5 +420,8 @@ Osmium.Color.nice = {
     CLOUD: new Osmium.Color(248, 249, 249),
     SUN: new Osmium.Color(245, 176, 65),
     MOON: new Osmium.Color(229, 231, 233),
-    SKIN: new Osmium.Color(255, 205, 148)
+    SKIN: new Osmium.Color(255, 205, 148),
+    SAND: new Osmium.Color(211, 199, 162),
+    DARK_SAND: new Osmium.Color(195, 173, 127),
+    DARK_GREY: new Osmium.Color(98, 101, 103)
 };

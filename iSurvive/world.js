@@ -1,8 +1,8 @@
 class Chunk {
-    constructor(position, biome, seed) {
+    constructor(position, biome) {
         this.position = position;
         this.biomeID = biome;
-        this.seed = seed;
+        console.log(this.biomeID)
 
         this.group = new Osmium.CTXElement.Group();
         this.physicsElements = [];
@@ -42,12 +42,12 @@ class Chunk {
             offsetPosition.y += this.getHeightAt(offsetPosition.x);
 
             for (let y = 0; y < Chunk.height; y++) {
-                const blockType = layers[Math.min(relativeY + y, layers.length - 1)];
+                const layer = Math.min(relativeY + y, layers.length - 1);
+                const blockType = layers[layer];
                 if (blockType == null) continue;
                 const blockData = this.getBlockData(blockType);
 
                 const thisOffset = new Osmium.Vector(offsetPosition.x, offsetPosition.y + y).round();
-                // if (thisOffset.y > Chunk.height) break;
 
                 const graphicPosition = thisOffset.multiplyScalar(blockSize);
 
@@ -67,7 +67,7 @@ class Chunk {
 
                 block.position.set(graphicPosition);
 
-                if (blockType.name == 'Grass') {
+                if (layer == 0) {
                     const physicsElement = new Osmium.Utils.PhysicsEngine.PhysicsElement(block, block.getPolygon().scale(1 / window.devicePixelRatio), {density: 0});
                     physicsEngine.add(physicsElement);
                     this.physicsElements.push(physicsElement)
@@ -84,9 +84,8 @@ Chunk.height = 10;
 Chunk.noise = new Osmium.Utils.SimplexNoise();
 
 class World {
-    constructor(grid, seed, game, physicsEngine, sun, moon) {
+    constructor(grid, game, physicsEngine, sun, moon) {
         this.grid = grid;
-        this.seed = (seed * 50) + 50;
         this.game = game;
         this.physicsEngine = physicsEngine;
         this.chunks = [];
@@ -96,7 +95,7 @@ class World {
         this.sun = this.createPlanet(sun, 200);
         this.moon = this.createPlanet(moon, 100);
 
-        this.tick = 0;
+        this.tick = 2500;
         this.speed = 1000;
 
         this.loadRadius = new Osmium.Vector(3, 0.5);
@@ -161,7 +160,7 @@ class World {
         return null;
     }
 
-    updateChunksAround(vector, graphicalOffset, blockTypes, blockSize) {
+    updateChunksAround(vector, graphicalOffset, blockTypes, blockSize, biomes) {
         const chunkPosition = new Osmium.Vector(((vector.x - graphicalOffset.x) / blockSize) / Chunk.width, ((vector.y - graphicalOffset.x) / blockSize) / Chunk.height).round();
 
         for (const chunk of this.chunks) {
@@ -175,7 +174,7 @@ class World {
                 const position = new Osmium.Vector(chunkPosition.x + x, chunkPosition.y + y);
 
                 let chunk = this.chunkAt(position) || (() => {
-                    const temporary = new Chunk(position, null, this.seed);
+                    const temporary = new Chunk(position, Osmium.Random.choice(biomes));
                     game.add(temporary.group);
                     temporary.generateBlocks(this.grid, this.physicsEngine, blockSize, blockTypes);
 
