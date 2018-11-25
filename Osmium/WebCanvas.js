@@ -15,8 +15,9 @@ Osmium.WebGame2D = class {
         
         if (parent != null) this.setParent(parent);
 
+        this.mainThread = null;
         this.renderSleep = 0;
-        this.loop = null;
+        this.threads = [];
 
         const that = this;
         window.addEventListener('resize', () => that.resize());
@@ -79,24 +80,24 @@ Osmium.WebGame2D = class {
 
         if (interval != null) this.renderSleep = interval;
 
-        this.loop = setInterval(async function() {
-            const now = new Date();
-            const passed = now.getTime() - start.getTime();
-
-            callback.apply(that, [passed]);
-            that.render(passed);
-
-            start = now;
+        this.mainThread = new Osmium.Thread(async function(time) {
+            callback.apply(that, [time]);
+            that.render(time);
         }, this.renderSleep);
+        this.mainThread.start();
+
+        for (const thread of this.threads) thread.start();
     }
 
     cancelLoop() {
-        if (this.loop == null) {
-            console.warn('Cannot stop inexistant loop');
-            return;
-        }
+        this.mainThread.cancel();
 
-        window.clearInterval(this.loop);
-        this.loop = null;
+        for (const thread of this.threads) thread.cancel();
+    }
+
+    appendThread(thread, start) {
+        this.threads.push(thread);
+
+        if (start) thread.start();
     }
 }

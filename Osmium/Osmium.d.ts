@@ -32,6 +32,17 @@ declare module Osmium {
         equals(vector: Vector): Boolean;
     }
 
+    class Thread {
+        callback: Function;
+        sleep: Number;
+        interval: Number;
+
+        constructor(callback: Function, sleep: Number);
+
+        cancel(): void;
+        start(): void;
+    }
+
     class Math {
         static toDegrees(angle: Number): Number;
         static toRadians(angle: Number): Number;
@@ -373,7 +384,8 @@ declare module Osmium {
         ctx: CanvasRenderingContext2D;
         renderedElements: (Element | BatchRenderer)[];
         renderSleep: Number;
-        loop: Number;
+        mainThread: Thread;
+        threads: Thread[];
 
         constructor(width: Number, height: Number, parent: HTMLElement);
 
@@ -386,7 +398,9 @@ declare module Osmium {
         setParent(parent: HTMLElement): void;
 
         render(timeElapsed: Number): void;
-        startLoop(callback: Function, interval?: Number);
+        startLoop(callback: Function, interval?: Number): void;
         cancelLoop(): void;
+
+        appendThread(thread: Thread, start?: Boolean): void;
     }
 }

@@ -25,12 +25,12 @@ class Player {
 
         this.element.position.set(
             game.width * 0.5,
-            game.height * 0.6
+            game.height * 0.7
         );
 
         game.add(this.element);
 
-        this.position = new Osmium.Vector(0, 50);
+        this.position = new Osmium.Vector(0, -100);
 
         this.physicsElement = new Osmium.Utils.PhysicsEngine.PhysicsElement({
             position: this.position,
@@ -44,8 +44,8 @@ class Player {
 
         physicsEngine.add(this.physicsElement);
 
-        this.speed = blockSize / 8;
-        this.jumpSize = blockSize / 6;
+        this.speed = blockSize / 4;
+        this.jumpSize = blockSize / 4;
     }
 
     move(direction) {
@@ -81,24 +81,25 @@ keyHandler.on('down:32', () => player.jump());
 keyHandler.on('tick:65', () => player.move(-player.speed));
 keyHandler.on('tick:68', () => player.move(player.speed));
 
-// window.addEventListener('click', function(event) {
-//     const position = new Osmium.Vector(event.clientX / blockSize, event.clientY / blockSize).floor();
-
-//     if (grid.isTaken(position.x, position.y))
-//         grid.get(position.x, position.y).fill.color = Osmium.Color.RED;
-// });
-
 window.addEventListener('resize', function() {
     worldSize = new Osmium.Vector(window.innerWidth, window.innerHeight).divideScalar(blockSize);
-    world.loadRadius.set(worldSize.x / Chunk.width, (worldSize.y / Chunk.height) * 0.5);
+    world.loadRadius.set(parseInt((worldSize.x / Chunk.width) * 2.5), parseInt(worldSize.y / Chunk.height));
 });
 
-world.loadRadius.set(parseInt((worldSize.x / Chunk.width) * 2), parseInt(worldSize.y / Chunk.height));
-game.startLoop(function(timeElapsed) {
-    world.updateChunksAround(new Osmium.Vector(player.position.x - (game.width / 2), player.position.y), new Osmium.Vector(0, player.element.position.y), assets.blockTypes, blockSize);
+world.loadRadius.set(parseInt((worldSize.x / Chunk.width) * 2.5), parseInt(worldSize.y / Chunk.height));
 
+game.appendThread(new Osmium.Thread(async function(timeElapsed) {
     world.update();
-    physicsEngine.update(timeElapsed);
     keyHandler.tick();
     player.getDeath();
-});
+
+    (async function() {
+        world.updateChunksAround(new Osmium.Vector(player.position.x - (game.width / 2), player.position.y), new Osmium.Vector(0, player.element.position.y), assets.blockTypes, blockSize);
+    })();
+
+    (async function() {
+        physicsEngine.update(timeElapsed);
+    })();
+}, 0), false);
+
+game.startLoop(() => {});

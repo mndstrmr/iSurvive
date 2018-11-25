@@ -316,6 +316,32 @@ const Osmium = {
 
             return new Osmium.Polygon(vertices);
         }
+    },
+    Thread: class {
+        constructor(callback, sleep) {
+            this.callback = callback;
+            this.sleep = sleep;
+
+            this.interval = null;
+        }
+
+        cancel() {
+            if (this.interval == null) console.warn('Cannot stop already stopped interval');
+
+            window.clearInterval(this.interval);
+            this.interval = null;
+        }
+
+        start() {
+            const that = this;
+            let start = new Date().getTime();
+
+            this.interval = window.setInterval(function() {
+                const now = new Date().getTime();
+                that.callback.apply(that, [now - start]);
+                start = now;
+            }, this.sleep);
+        }
     }
 };
 Osmium.KeyHandler = class extends Osmium.EventEmitter {

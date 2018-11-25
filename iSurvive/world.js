@@ -13,7 +13,7 @@ class Chunk {
     }
 
     getHeightAt(xPosition) {
-        return (Math.sin(((xPosition * 0.015) / (Math.PI * 2) * this.seed) ** 1.05) * this.seed * 0.03) + 20;
+        return Chunk.noise.getVal(xPosition * 0.09) * 10;
     }
 
     getBlockData(block) {
@@ -79,8 +79,9 @@ class Chunk {
         }
     }
 }
-Chunk.width = 20;
-Chunk.height = 20;
+Chunk.width = 40;
+Chunk.height = 10;
+Chunk.noise = new Osmium.Utils.SimplexNoise();
 
 class World {
     constructor(grid, seed, game, physicsEngine, sun, moon) {
@@ -96,7 +97,7 @@ class World {
         this.moon = this.createPlanet(moon, 100);
 
         this.tick = 0;
-        this.speed = 10;
+        this.speed = 1000;
 
         this.loadRadius = new Osmium.Vector(3, 0.5);
     }
@@ -161,7 +162,7 @@ class World {
     }
 
     updateChunksAround(vector, graphicalOffset, blockTypes, blockSize) {
-        const chunkPosition = new Osmium.Vector((vector.x / blockSize) / Chunk.width, (vector.y / blockSize) / Chunk.height).round();
+        const chunkPosition = new Osmium.Vector(((vector.x - graphicalOffset.x) / blockSize) / Chunk.width, ((vector.y - graphicalOffset.x) / blockSize) / Chunk.height).round();
 
         for (const chunk of this.chunks) {
             chunk.group.hide();
