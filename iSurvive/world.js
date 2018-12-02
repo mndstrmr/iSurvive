@@ -185,4 +185,3 @@ class World {
         }
     }
 }
-World.width = 53;
