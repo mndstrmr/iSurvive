@@ -1,4 +1,6 @@
-Osmium.Utils.SimplexNoise = function() {
+Osmium.Utils.SimplexNoise = function(seed) {
+    seed = seed || Math.random();
+
     var MAX_VERTICES = 256;
     var MAX_VERTICES_MASK = MAX_VERTICES -1;
     var amplitude = 1;
@@ -7,7 +9,7 @@ Osmium.Utils.SimplexNoise = function() {
     var r = [];
 
     for ( var i = 0; i < MAX_VERTICES; ++i ) {
-        r.push(Math.random());
+        r.push((seed * i * 10939283819.9283) % 1);
     }
 
     var getVal = function( x ){

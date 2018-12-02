@@ -120,8 +120,10 @@ const Osmium = {
             if (Osmium.Image.loaded[this.path] == null) {
                 const domElement = document.createElement('img');
                 domElement.src = this.path;
-
                 Osmium.Image.loaded[this.path] = domElement;
+                domElement.onerror = () => {
+                    Osmium.Image.loaded[this.path].error = true;
+                }
             }
         }
 
@@ -145,6 +147,22 @@ const Osmium = {
                 new Osmium.Vector(this.getHeight(), 0)
             ]);
         }
+
+        isError() {
+            return this.getDomElement().error == true;
+        }
+
+        getPromise() {
+            return new Promise((resolve) => {
+                const i = setInterval(() => {
+                    if (this.getWidth() != 0 || this.isError()) {
+                        resolve();
+
+                        window.clearInterval(i);
+                    }
+                })
+            });
+        }
     },
     Utils: {},
     Element: class {
@@ -160,6 +178,7 @@ const Osmium = {
             this.visible = true;
 
             this.event = new Osmium.EventEmitter();
+            this.renderPosition = 0;
         }
         
         addAnimation(animation) {

@@ -82,4 +82,17 @@ Osmium.Utils.PhysicsEngine.PhysicsElement = class {
 
         this.element.position.set(this.element.position.add(this.velocity));
     }
+
+    getTest(split) {
+        const element = new Osmium.CTXElement.Simple.Polygon(this.hitbox.scale(window.devicePixelRatio).vertices);
+        element.fill.color = Osmium.Color.RED;
+        element.stroke.color = Osmium.Color.BLUE;
+        element.stroke.enable();
+        element.stroke.width = 2;
+        element.renderPosition = 2;
+
+        element.position = split? this.element.position.clone():this.element.position;
+
+        return element; 
+    }
 }

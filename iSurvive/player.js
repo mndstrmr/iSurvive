@@ -1,14 +1,14 @@
 class Player {
-    constructor() {
-        if (assets.player.path != null) {
+    constructor(game, blockSize, playerData) {
+        if (playerData.path != null) {
             this.element = new Osmium.CTXElement.Image(
-                new Osmium.Image(assets.player.path),
+                new Osmium.Image(playerData.path),
                 null, null,
                 new Osmium.Vector(blockSize * window.devicePixelRatio, blockSize * 2 * window.devicePixelRatio)
             );
         } else {
             this.element = new Osmium.CTXElement.Simple.Rectangle(blockSize * window.devicePixelRatio, blockSize * 2 * window.devicePixelRatio);
-            this.element.fill.color = assets.player.revert;
+            this.element.fill.color = playerData.revert;
         }
 
         this.element.position.set(
@@ -18,8 +18,7 @@ class Player {
 
         game.add(this.element);
 
-        this.position = new Osmium.Vector(0, -100);
-
+        this.position = new Osmium.Vector(0, 0);
         this.physicsElement = new Osmium.Utils.PhysicsEngine.PhysicsElement({
             position: this.position,
             rotation: 0
@@ -32,8 +31,10 @@ class Player {
 
         physicsEngine.add(this.physicsElement);
 
-        this.speed = blockSize / 4;
-        this.jumpSize = blockSize / 3;
+        this.speed = blockSize / 8;
+        this.jumpSize = blockSize / 8;
+
+        this.element.renderPosition = 1;
     }
 
     move(direction) {

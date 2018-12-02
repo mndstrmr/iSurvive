@@ -183,13 +183,14 @@ Osmium.CTXElement.Image = class extends Osmium.CTXElement.CTXElement {
         this.clipEnd = clipEnd;
 
         this.size = size;
+        this.offset = new Osmium.Vector();
     }
 
     finalRender(ctx) {
         if (this.clipStart == null && this.clipEnd == null && this.size != null) {
             ctx.drawImage(
                 this.image.getDomElement(),
-                0, 0,
+                this.offset.x, this.offset.y,
                 this.size.width, this.size.height
             )
         } else if (this.clipStart != null && this.clipEnd != null && this.size == null) {
@@ -214,7 +215,7 @@ Osmium.CTXElement.Image = class extends Osmium.CTXElement.CTXElement {
         } else if (this.clipStart == null && this.clipEnd == null && this.size == null) {
             ctx.drawImage(
                 this.image.getDomElement(),
-                0, 0
+                this.offset.x, this.offset.y,
             )
         }
     }

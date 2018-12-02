@@ -1,7 +1,6 @@
 class CloudHandler {
-    constructor(game, grid, cloudData) {
+    constructor(game, cloudData) {
         this.game = game;
-        this.grid = grid;
         this.cloudData = cloudData;
 
         const fill = new Osmium.CTXElement.Fill(this.cloudData.revert, true);
@@ -31,8 +30,8 @@ class CloudHandler {
 
     genPosition(x, y) {
         return new Osmium.Vector(
-            x == null? parseInt(Math.random() * this.grid.width) * blockSize : x,
-            y == null? parseInt((Math.random() * this.grid.height * 0.1) + 3) * blockSize : y
+            x == null? Math.random() * this.game.width : x,
+            y == null? parseInt((Math.random() * this.game.height * 0.2) + 30) : y
         );
     }
 

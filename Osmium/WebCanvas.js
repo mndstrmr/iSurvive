@@ -21,6 +21,8 @@ Osmium.WebGame2D = class {
 
         const that = this;
         window.addEventListener('resize', () => that.resize());
+
+        this.background = null;
     }
 
     setBackground(color) {
@@ -37,6 +39,10 @@ Osmium.WebGame2D = class {
 
     add(element) {
         this.renderedElements.push(element);
+
+        this.renderedElements.sort(function(a, b) {
+            return a.renderPosition - b.renderPosition;
+        });
 
         if (element.isHTMLElement) element.add(this.parent);
     }
@@ -57,6 +63,11 @@ Osmium.WebGame2D = class {
 
     clearCanvas() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        if (this.background != null) {
+            this.ctx.fillStyle = this.background.toString();
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        }
     }
 
     render(timeElapsed) {

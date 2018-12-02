@@ -93,6 +93,8 @@ declare module Osmium {
         getDomElement(): HTMLElement;
         getPolygon(): Polygon;
 
+        isError(): Boolean;
+
         static loaded: Object;
     }
 
@@ -152,6 +154,8 @@ declare module Osmium {
 
                 canMoveBy(vector: Vector, elements: PhysicsElement[]): Boolean;
                 update(gravity: Number, elements: PhysicsElement[], timeElapsed: Number): void;
+
+                getTest(): CTXElement.Simple.Polygon;
             }
 
             class SimplexNoise {
@@ -179,6 +183,7 @@ declare module Osmium {
         notVisibleCallback: Function;
         visible: Boolean;
         event: EventEmitter;
+        renderPosition: Number;
 
         constructor();
 
@@ -392,6 +397,7 @@ declare module Osmium {
         renderSleep: Number;
         mainThread: Thread;
         threads: Thread[];
+        background?: Color;
 
         constructor(width: Number, height: Number, parent: HTMLElement);
 
