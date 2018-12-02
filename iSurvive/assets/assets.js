@@ -1,20 +1,29 @@
+/*
+                                     .__                    
+__  _  __ _____    _______    ____   |__|   ____      ____  
+\ \/ \/ / \__  \   \_  __ \  /    \  |  |  /    \    / ___\ 
+ \     /   / __ \_  |  | \/ |   |  \ |  | |   |  \  / /_/  >
+  \/\_/   (____  /  |__|    |___|  / |__| |___|  /  \___  / 
+               \/                \/            \/  /_____/  
+
+DO NOT CHANGE THIS FILE, or any other, but this one is kind of important. If you understand JSON and think you can figure out what you are doing, then fine. But back it up first.
+
+- Louis-Emile Ploix
+*/
+
 const assets = {
     planets: {
         sun: {
-            // path: 'assets/sun.jpg',
-            revert: Osmium.Color.nice.SUN
+            path: 'assets/sun.png'
         },
         moon: {
-            // path: 'assets/moon.jpg',
-            revert: Osmium.Color.nice.MOON
+            path: 'assets/moon.png'
         }
     },
     cloud: {
-        // path: 'assets/cloud.jpg',
-        revert: Osmium.Color.nice.CLOUD
+        color: Osmium.Color.nice.CLOUD
     },
     player: {
-        // path: 'assets/player.jpg',
-        revert: new Osmium.Color(142, 68, 173)
+        path: 'assets/player.png'
     }
 };

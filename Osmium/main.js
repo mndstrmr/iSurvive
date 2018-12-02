@@ -431,6 +431,10 @@ Osmium.Color.from = function(x) {
     return new Osmium.Color(x, x, x);
 }
 
+Osmium.Color.fromArray = function(array) {
+    return new Osmium.Color(array[0], array[1], array[2], array[3]);
+}
+
 Osmium.Color.nice = {
     DARK_GREEN: new Osmium.Color(30, 132, 73),
     GREY: new Osmium.Color(112, 123, 124),

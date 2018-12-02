@@ -1,15 +1,10 @@
 class Player {
-    constructor(game, blockSize, playerData) {
-        if (playerData.path != null) {
-            this.element = new Osmium.CTXElement.Image(
-                new Osmium.Image(playerData.path),
-                null, null,
-                new Osmium.Vector(blockSize * window.devicePixelRatio, blockSize * 2 * window.devicePixelRatio)
-            );
-        } else {
-            this.element = new Osmium.CTXElement.Simple.Rectangle(blockSize * window.devicePixelRatio, blockSize * 2 * window.devicePixelRatio);
-            this.element.fill.color = playerData.revert;
-        }
+    constructor(game, blockSize, playerData, speedInfo) {
+        this.element = new Osmium.CTXElement.Image(
+            new Osmium.Image(playerData.path),
+            null, null,
+            new Osmium.Vector(blockSize * window.devicePixelRatio, blockSize * 2 * window.devicePixelRatio)
+        );
 
         this.element.position.set(
             game.width * 0.5,
@@ -31,13 +26,15 @@ class Player {
 
         physicsEngine.add(this.physicsElement);
 
-        this.speed = blockSize / 10;
-        this.jumpSize = blockSize / 9;
+        this.speed = blockSize * speedInfo.speed;
+        this.jumpSize = blockSize * speedInfo.jumpSize;
 
         this.element.renderPosition = 1;
     }
 
     move(direction) {
+        direction *= 1 - (this.physicsElement.isGrounded * 0.09);
+
         if (this.physicsElement.canMoveBy({x: direction, y: 0}, physicsEngine.physicsElements))
             this.position.x += direction;
     }

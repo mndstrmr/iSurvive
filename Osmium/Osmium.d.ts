@@ -80,6 +80,7 @@ declare module Osmium {
         }
 
         static from(value: Number): Color;
+        static fromArray(array: Number[]): Color;
     }
 
     class Image {

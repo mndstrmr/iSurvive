@@ -240,5 +240,15 @@ Osmium.CTXElement.Group = class extends Osmium.CTXElement.CTXElement {
 
     add() {
         Array.prototype.push.apply(this.elements, arguments);
+
+        this.elements.sort(function(a, b) {
+            return a.renderPosition - b.renderPosition;
+        });
+
+        let avg = 0;
+        for (const element of this.elements) avg += element.renderPosition || 0;
+
+        avg = avg / this.elements.length;
+        this.renderPosition = avg;
     }
 }

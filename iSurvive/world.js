@@ -1,7 +1,6 @@
 class Chunk {
-    constructor(position, biome) {
+    constructor(position) {
         this.position = position;
-        this.biomeID = biome;
 
         this.physicsElements = [];
     }
@@ -56,7 +55,7 @@ Chunk.width = 40;
 Chunk.noise = new Osmium.Utils.SimplexNoise(Chunk.seed);
 
 class World {
-    constructor(game, physicsEngine, sun, moon, blockSize) {
+    constructor(game, physicsEngine, sun, moon, sky) {
         this.game = game;
         this.physicsEngine = physicsEngine;
         this.chunks = [];
@@ -76,6 +75,9 @@ class World {
         this.initLayers();
 
         if (Chunk.test) game.add(Chunk.testGroup);
+
+        this.end = Osmium.Color.fromArray(sky[0]);
+        this.start = Osmium.Color.fromArray(sky[1]);
     }
 
     async initLayers() {
@@ -104,11 +106,7 @@ class World {
         const time = (sin + 1) / 2;
         const day = Math.cos(this.tick / this.speed) < 0;
 
-        (async () => {
-            const end = new Osmium.Color(214, 234, 248);
-            const start = new Osmium.Color(28, 40, 51);
-            this.game.background = start.merge(end, time);
-        })();
+        this.game.background = this.start.merge(this.end, time);
 
         if (day) {
             this.sun.position.y = (((-this.sun.height / 2) + (this.game.height + (this.sun.height * 1.5))) * time) - (this.sun.height / 2);
@@ -120,29 +118,16 @@ class World {
     }
 
     createPlanet(data, size) {
-        let planet;
-
         const width = size * window.devicePixelRatio;
 
-        if (data.path != null) {
-            planet = new Osmium.CTXElement.Image(
-                new Osmium.Image(data.path),
-                null, null,
-                new Osmium.Vector(width, width)
-            );
-
-            planet.width = planet.height = width;
-        } else {
-            planet = new Osmium.CTXElement.Simple.Rectangle(width, width, 0.5);
-
-            planet.fill.color = data.revert;
-            planet.stroke.color = planet.fill.color;
-            planet.stroke.enabled = true;
-        }
-
-        planet.position.set(
-            this.game.width * 0.75, this.game.height + (planet.height / 2)
+        let planet = new Osmium.CTXElement.Image(
+            new Osmium.Image(data.path),
+            null, null,
+            new Osmium.Vector(width, width)
         );
+        planet.width = planet.height = width;
+
+        planet.position.set(this.game.width * 0.75, this.game.height + (planet.height / 2));
 
         this.game.add(planet);
 
@@ -157,7 +142,7 @@ class World {
         return null;
     }
 
-    updateChunksAround(vector, graphicalOffset, blockSize, biomes) {
+    updateChunksAround(vector, graphicalOffset, blockSize) {
         const chunkPosition = Math.round(((vector.x - graphicalOffset.x) / blockSize) / Chunk.width);
 
         const translation = new Osmium.Vector(-vector.x, -vector.y + (game.height * 0.7));
@@ -170,11 +155,12 @@ class World {
         if (Chunk.test) Chunk.testGroup.position = translation;
 
         for (const chunk of this.chunks) chunk.setActive(false);
+
         for (let x = -this.loadRadius; x < this.loadRadius; x++) {
             const position = chunkPosition + x;
 
             let chunk = this.chunkAt(position) || (() => {
-                const temporary = new Chunk(position, Osmium.Random.choice(biomes));
+                const temporary = new Chunk(position);
                 temporary.generateBlocks(this.physicsEngine, blockSize);
                 this.chunks.push(temporary);
 

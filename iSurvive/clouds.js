@@ -3,7 +3,7 @@ class CloudHandler {
         this.game = game;
         this.cloudData = cloudData;
 
-        const fill = new Osmium.CTXElement.Fill(this.cloudData.revert, true);
+        const fill = new Osmium.CTXElement.Fill(this.cloudData.color, true);
         const stroke = new Osmium.CTXElement.Stroke();
         stroke.match(fill);
 
@@ -43,21 +43,11 @@ class CloudHandler {
         const width = blockSize * window.devicePixelRatio;
 
         for (let x = 0; x < size; x++) {
-            let block = null;
+            let block = new Osmium.CTXElement.Simple.Rectangle(width, width);
 
-            if (this.cloudData.path != null) {
-                block = new Osmium.CTXElement.Image(
-                    new Osmium.Image(this.cloudData.path),
-                    null, null,
-                    new Osmium.Vector(width, width)
-                );
-            } else {
-                block = new Osmium.CTXElement.Simple.Rectangle(width, width);
-
-                block.fill.color = this.cloudData.revert.randomise(30);
-                block.stroke.color = block.fill.color;
-                block.stroke.enabled = true;
-            }
+            block.fill.color = this.cloudData.color.randomise(30);
+            block.stroke.color = block.fill.color;
+            block.stroke.enabled = true;
 
             block.position.set(blockSize * x, 0);
             cloudsElement.add(block);
@@ -72,7 +62,7 @@ class CloudHandler {
         cloudsElement.addAnimation(
             new Osmium.Animation.RestartAnimation(
                 'position.x',
-                (((Math.random() * 20) + 5) / 250),
+                (((Math.random() * 20) + 5) / 700),
                 -cloudsElement.width,
                 (x) => x > this.game.width
             )
