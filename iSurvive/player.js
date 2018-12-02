@@ -31,8 +31,8 @@ class Player {
 
         physicsEngine.add(this.physicsElement);
 
-        this.speed = blockSize / 8;
-        this.jumpSize = blockSize / 8;
+        this.speed = blockSize / 10;
+        this.jumpSize = blockSize / 9;
 
         this.element.renderPosition = 1;
     }
