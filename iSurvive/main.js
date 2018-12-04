@@ -18,13 +18,19 @@ keyHandler.on('down:32', () => player.jump());
 keyHandler.on('tick:65', () => player.move(-player.speed));
 keyHandler.on('tick:68', () => player.move(player.speed));
 
+Enemy.types.init(assets, worldData);
 game.appendThread(new Osmium.Thread(async function(timeElapsed) {
     world.update();
     keyHandler.tick();
     player.getDeath();
 
+    const primary = new Osmium.Vector(player.position.x - (game.width / 2), player.position.y);
+    const secondary = new Osmium.Vector(-primary.x, -primary.y + player.element.position.y);
+
+    Enemy.update(player, worldSize, blockSize, game, physicsEngine, secondary);
+
     (async function() {
-        world.updateChunksAround(new Osmium.Vector(player.position.x - (game.width / 2), player.position.y), new Osmium.Vector(0, player.element.position.y), blockSize);
+        world.updateChunksAround(primary, secondary, blockSize);
     })();
 
     (async function() {

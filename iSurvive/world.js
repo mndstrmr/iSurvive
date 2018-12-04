@@ -142,10 +142,8 @@ class World {
         return null;
     }
 
-    updateChunksAround(vector, graphicalOffset, blockSize) {
-        const chunkPosition = Math.round(((vector.x - graphicalOffset.x) / blockSize) / Chunk.width);
-
-        const translation = new Osmium.Vector(-vector.x, -vector.y + (game.height * 0.7));
+    updateChunksAround(vector, translation, blockSize) {
+        const chunkPosition = Math.round((vector.x / blockSize) / Chunk.width);
 
         for (let i = this.layers.length - 1; i >= 0; i--) {
             const layer = this.layers[i];

@@ -25,5 +25,10 @@ const assets = {
     },
     player: {
         path: 'assets/player.png'
+    },
+    enemies: {
+        zombie: {
+            path: 'assets/zombie.png'
+        }
     }
 };

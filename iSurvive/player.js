@@ -29,7 +29,9 @@ class Player {
         this.speed = blockSize * speedInfo.speed;
         this.jumpSize = blockSize * speedInfo.jumpSize;
 
-        this.element.renderPosition = 1;
+        this.element.renderPosition = Infinity;
+
+        this.inventory = [];
     }
 
     move(direction) {
