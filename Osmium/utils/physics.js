@@ -5,9 +5,13 @@ Osmium.Utils.PhysicsEngine.Engine = class {
         this.physicsElements = [];
     }
 
-    update(dt) {
+    update(dt, shouldBeAsync) {
         for (const element of this.physicsElements)
-            element.update(this.gravity, this.physicsElements, dt);
+            if (shouldBeAsync) {
+                (async () => element.update(this.gravity, this.physicsElements, dt))();
+            } else {
+                element.update(this.gravity, this.physicsElements, dt);
+            }
     }
 
     add() {
@@ -24,15 +28,14 @@ Osmium.Utils.PhysicsEngine.Engine = class {
 }
 
 Osmium.Utils.PhysicsEngine.PhysicsElement = class {
-    constructor(element, hitbox, data) {
+    constructor(element, hitbox, data, doesTouch) {
         this.element = element;
 
         this.velocity = new Osmium.Vector();
         this.density = 1;
         this.hitbox = hitbox;
         this.isGrounded = false;
-        
-        this.contactElements = null;
+        this.doesTouch = doesTouch || ((element) => true);
 
         if (data != null) Object.extend(this, data);
 
@@ -55,7 +58,7 @@ Osmium.Utils.PhysicsEngine.PhysicsElement = class {
         const hitbox = this.getFullHitbox(vector);
 
         for (const element of elements) {
-            if (element == this || !element.active) continue;
+            if (element == this || !element.active || !this.doesTouch(element) || !element.doesTouch(this)) continue;
             
             if (element.intersects(hitbox)) {
                 return false;
@@ -69,15 +72,23 @@ Osmium.Utils.PhysicsEngine.PhysicsElement = class {
         if (!this.active) return;
 
         if (this.density != 0) {
-            const gravityVelocity = this.velocity.add({x: 0, y: gravity * this.density * dt});
+            const gravityVelocity = new Osmium.Vector(0, this.velocity.y + (gravity * this.density * dt));
 
-            if (this.canMoveBy(gravityVelocity, this.contactElements == null? elements:this.contactElements)) {
-                this.velocity = gravityVelocity;
+            if (this.canMoveBy(gravityVelocity, elements)) {
+                this.velocity.y = gravityVelocity.y;
                 this.isGrounded = false;
             } else {
                 this.velocity.y = 0;
                 this.isGrounded = true;
             }
+
+            const movementVelocity = new Osmium.Vector(this.velocity.x * 0.95, 0);
+            if (this.canMoveBy(movementVelocity, elements)) {
+                this.velocity.x = movementVelocity.x;
+            } else {
+                this.velocity.x = 0;
+            }
+
         }
 
         this.element.position.set(this.element.position.add(this.velocity));

@@ -340,6 +340,7 @@ const Osmium = {
         constructor(callback, sleep) {
             this.callback = callback;
             this.sleep = sleep;
+            this.maxGap = 20 * 1000;
 
             this.interval = null;
         }
@@ -357,7 +358,7 @@ const Osmium = {
 
             this.interval = window.setInterval(function() {
                 const now = new Date().getTime();
-                that.callback.apply(that, [now - start]);
+                that.callback.apply(that, [Math.min(now - start, that.maxGap)]);
                 start = now;
             }, this.sleep);
         }

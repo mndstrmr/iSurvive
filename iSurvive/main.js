@@ -15,6 +15,7 @@ const player = new Player(game, blockSize, assets.player, worldData.player);
 
 const keyHandler = new Osmium.KeyHandler(window);
 keyHandler.on('down:32', () => player.jump());
+keyHandler.on('down:81', () => player.attemptKill(Enemy.loaded));
 keyHandler.on('tick:65', () => player.move(-player.speed));
 keyHandler.on('tick:68', () => player.move(player.speed));
 
@@ -22,19 +23,18 @@ Enemy.types.init(assets, worldData);
 game.appendThread(new Osmium.Thread(async function(timeElapsed) {
     world.update();
     keyHandler.tick();
-    player.getDeath();
 
     const primary = new Osmium.Vector(player.position.x - (game.width / 2), player.position.y);
     const secondary = new Osmium.Vector(-primary.x, -primary.y + player.element.position.y);
 
-    Enemy.update(player, worldSize, blockSize, game, physicsEngine, secondary);
+    Enemy.update(player, worldSize, blockSize, game, physicsEngine, secondary, worldData.difficulty);
 
     (async function() {
         world.updateChunksAround(primary, secondary, blockSize);
     })();
 
     (async function() {
-        physicsEngine.update(timeElapsed);
+        physicsEngine.update(timeElapsed, true);
     })();
 }, 0), false);
 

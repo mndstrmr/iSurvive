@@ -144,8 +144,8 @@ declare module Osmium {
                 density: Number;
                 hitbox: Polygon;
                 isGrounded: Boolean;
-                contactElements?: PhysicsElement[];
                 active: Boolean;
+                doesTouch: Function;
 
                 constructor(element: Osmium.Element, hitbox: Polygon, data?: Object);
 
@@ -338,6 +338,7 @@ declare module Osmium {
             clipStart?: Vector;
             clipEnd?: Vector;
             size?: Vector;
+            offset: Vector;
 
             constructor(image: Osmium.Image, clipStart?: Vector, clipEnd?: Vector, size?: Vector);
         }

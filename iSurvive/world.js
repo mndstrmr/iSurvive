@@ -50,7 +50,7 @@ String.prototype.hashCode = function() {
 Chunk.test = window.location.href.indexOf('show') != -1;
 Chunk.testGroup = Chunk.test == false? null:new Osmium.CTXElement.Group();
 Chunk.seedName = window.location.hash == ''? 15:window.location.hash.slice(1);
-Chunk.seed = (Chunk.seedName / 2821123.129183) % 1;
+Chunk.seed = typeof Chunk.seedName == 'number'? 0.000005317031307436771:Math.sin(Chunk.seedName * 2821123.129183);
 Chunk.width = 40;
 Chunk.noise = new Osmium.Utils.SimplexNoise(Chunk.seed);
 

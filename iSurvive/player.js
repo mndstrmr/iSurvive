@@ -22,12 +22,15 @@ class Player {
             new Osmium.Vector(0, blockSize * 2),
             new Osmium.Vector(blockSize, blockSize * 2),
             new Osmium.Vector(blockSize, 0)
-        ]));
+        ]), {}, (element) => {
+            return !element.isEnemy;
+        });
 
         physicsEngine.add(this.physicsElement);
 
         this.speed = blockSize * speedInfo.speed;
         this.jumpSize = blockSize * speedInfo.jumpSize;
+        this.range = blockSize * speedInfo.range;
 
         this.element.renderPosition = Infinity;
 
@@ -36,21 +39,33 @@ class Player {
 
     move(direction) {
         direction *= 1 - (this.physicsElement.isGrounded * 0.09);
+        this.physicsElement.velocity.x += direction * 0.05;
 
-        if (this.physicsElement.canMoveBy({x: direction, y: 0}, physicsEngine.physicsElements))
-            this.position.x += direction;
+        if (direction > 0) {
+            this.element.scale.x = 1;
+            this.element.offset.x = 0;
+        } else {
+            this.element.scale.x = -1;
+            this.element.offset.x = -this.element.size.x;
+        }        
     }
 
     jump() {
         if (this.physicsElement.isGrounded) this.physicsElement.velocity.y -= this.jumpSize;
     }
 
-    getDeath() {
-        if (this.element.position.y > game.height) {
-            document.querySelector('.death .message').innerHTML = 'You fell into the eternal void and died a relatively quick and painless death.';
-            document.querySelector('.death').classList.remove('hidden');
+    kill(message) {
+        document.querySelector('.death .message').innerHTML = message;
+        document.querySelector('.death').classList.remove('hidden');
 
-            game.cancelLoop();
+        game.cancelLoop();
+    }
+
+    attemptKill(enemies) {
+        for (const enemy of enemies) {
+            if (enemy.position.distanceTo(this.position) <= this.range) {
+                enemy.kill(this);
+            }
         }
     }
 }

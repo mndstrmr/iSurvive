@@ -87,8 +87,6 @@ Osmium.WebGame2D = class {
 
     startLoop(callback, interval) {
         const that = this;
-        let start = new Date();
-
         if (interval != null) this.renderSleep = interval;
 
         this.mainThread = new Osmium.Thread(async function(time) {

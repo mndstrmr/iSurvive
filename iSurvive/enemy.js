@@ -1,14 +1,16 @@
 class Enemy {
     constructor(game, blockSize, data, x, close, physicsEngine, name) {
-        this.element = new Osmium.CTXElement.Image(
+        this.element = new Osmium.CTXElement.Group();
+
+        this.element.position.set(x * blockSize, 0);
+        this.element.renderPosition = 1;
+
+        this.image = new Osmium.CTXElement.Image(
             data.image,
             null, null,
             new Osmium.Vector(blockSize * window.devicePixelRatio * data.width, blockSize * data.height * window.devicePixelRatio)
         );
-
-        this.element.position.set(x * blockSize, 0);
-        this.element.renderPosition = 1;
-        game.add(this.element);
+        this.element.add(this.image);
 
         this.position = this.element.position.clone();
         this.physicsElement = new Osmium.Utils.PhysicsEngine.PhysicsElement({
@@ -19,7 +21,10 @@ class Enemy {
             new Osmium.Vector(0, blockSize * data.height),
             new Osmium.Vector(blockSize * data.width, blockSize * data.height),
             new Osmium.Vector(blockSize * data.width, 0)
-        ]));
+        ]), {}, (element) => {
+            return !element.isEnemy;
+        });
+        this.physicsElement.isEnemy = true;
 
         physicsEngine.add(this.physicsElement);
 
@@ -31,47 +36,97 @@ class Enemy {
         Enemy.loaded.push(this);
         this.close = close;
         this.name = name;
+        this.dead = false;
 
-        Enemy.group.add(this.element);
+        this.data = data;
+        this.physicsEngine = physicsEngine;
+
+        this.element.hide();
+        game.add(this.element);
     }
 
     update(player, offset) {
-        const distance = player.position.distanceTo(this.position) / blockSize;
-        const close = distance < this.followRadius;
+        if (!this.dead) {
+            const distance = player.position.distanceTo(this.position) / blockSize;
+            const close = distance < this.followRadius;
 
-        if (Math.abs(distance - this.followRadius) > 0.5) { 
-            let direction = 1 - (this.physicsElement.isGrounded * 0.09);
-            direction *= this.position.x > player.position.x? -1:1;
-            direction *= close? -1:1;
+            if (Math.abs(distance - this.followRadius) > 0.5) { 
+                let direction = 1 - (this.physicsElement.isGrounded * 0.09);
+                direction *= this.position.x > player.position.x? -1:1;
+                direction *= close? -1:1;
 
-            if (this.physicsElement.canMoveBy({x: direction, y: 0}, physicsEngine.physicsElements)) {
-                this.element.position.x += direction;
-                this.position.x += direction;
-            } else if (this.physicsElement.isGrounded) {
-                this.physicsElement.velocity.y -= this.jumpSize;
+                if (this.physicsElement.canMoveBy({x: direction, y: 0}, physicsEngine.physicsElements)) {
+                    this.physicsElement.velocity.x += direction * 0.05;
+                } else if (this.physicsElement.isGrounded) {
+                    this.physicsElement.velocity.y -= this.jumpSize;
+                }
+
+                if (this.position.x < player.position.x) {
+                    this.image.scale.x = 1;
+                    this.image.offset.x = 0;
+                } else {
+                    this.image.scale.x = -1;
+                    this.image.offset.x = -this.image.size.x;
+                }
             }
-        } else this.close();
+
+            if (this.physicsElement.getFullHitbox().intersects(player.physicsElement.getFullHitbox())) {
+                this.close(player);
+            }
+        }
 
         this.element.position.y = this.position.y + offset.y;
         this.element.position.x = this.position.x + offset.x;
+        this.element.show();
     }
 
     kill(player) {
-        Enemy.loaded.splice(Enemy.loaded.indexOf(this), 1);
+        if (this.dead) return;
+
         player.inventory.push(Osmium.Random.choice(this.inventory));
-        this.element.requestDelete();
+        this.element.elements.splice(0, 1);
+        this.dead = true;
+        this.physicsElement.active = false;
+
+        for (let x = 0; x < this.data.width * 3; x++) {
+            for (let y = 0; y < this.data.height * 3; y++) {
+                if (Math.random() >= 0.3) {
+                    const pixel = new Osmium.CTXElement.Simple.Rectangle((blockSize / 3) * window.devicePixelRatio, (blockSize / 3) * window.devicePixelRatio);
+                    pixel.position.set((blockSize / 3) * x, (blockSize / 3) * y);
+                    pixel.fill.color = Osmium.Color.fromArray(this.data.theme).randomise(30);
+                    pixel.stroke.match(pixel.fill);
+                    this.element.add(pixel);
+
+                    const physicsElement = new Osmium.Utils.PhysicsEngine.PhysicsElement(
+                        pixel,
+                        pixel.getPolygon().scale(1 / window.devicePixelRatio),
+                        {
+                            density: (Math.random() + 0.5) / 2
+                        },
+                        (element) => false
+                    );                    
+                    physicsElement.velocity.y = this.physicsElement.velocity.y * (player.range * 0.001);
+                    physicsElement.velocity.x = this.physicsElement.velocity.x * (player.range * 0.1);
+                    this.physicsEngine.add(physicsElement);
+                }
+            }
+        }
+
+        setTimeout(() => {
+            this.element.requestDelete()
+            Enemy.loaded.splice(Enemy.loaded.indexOf(this), 1);
+        }, 3000);
     }
 }
-Enemy.group = new Osmium.CTXElement.Group();
 Enemy.loaded = [];
 
-Enemy.update = function(player, worldSize, blockSize, game, physicsEngine, offset) {
+Enemy.update = function(player, worldSize, blockSize, game, physicsEngine, offset, difficulty) {
     for (const enemy of Enemy.loaded) {
         enemy.update(player, offset);
     }
 
     for (const type of Enemy.types) {
-        if (type.shouldGenerate()) type.generate(worldSize, blockSize, game, physicsEngine);
+        if (Math.random() < difficulty && type.shouldGenerate()) type.generate(worldSize, blockSize, game, physicsEngine);
     }
 }
 
@@ -80,32 +135,42 @@ Enemy.EnemyType = class {
     generate(worldSize, blockSize, game, physicsEngine) {}
 }
 
-Enemy.types = [
-    class extends Enemy.EnemyType { // Zombie
+function simpleEnemyType(name, close) {
+    return class extends Enemy.EnemyType {
         constructor(assets, data) {
             super();
 
-            this.data = data.enemies[0];
-            this.data.image = new Osmium.Image(assets.enemies.zombie.path); 
+            this.data = data.enemies[name];
+            this.data.image = new Osmium.Image(assets.enemies[name].path); 
         }
 
         shouldGenerate() {
             let count = 0;
 
             for (const enemy of Enemy.loaded) {
-                if (enemy.name == 'zombie') count++;
+                if (enemy.name == name) count++;
             }
 
             if (count < this.data.max) return Math.random() <= this.data.chance;
         }
 
         generate(worldSize, blockSize, game, physicsEngine) {
-            return new Enemy(game, blockSize, this.data, parseInt(Math.random() * worldSize.width), function() {}, physicsEngine, 'zombie');
+            return new Enemy(game, blockSize, this.data, (parseInt(Math.random() * worldSize.width) - (worldSize.width / 2)) + (player.position.x / blockSize), close || (() => {}), physicsEngine, name);
         }
-    }   
+    }
+}
+
+Enemy.types = [
+    simpleEnemyType('zombie', (player) => {
+        player.kill('Your brains were eaten by a zombie.');
+    }),
+    simpleEnemyType('dragon', (player) => {
+        player.kill('You were burned to death by a dragon.');
+    })
 ]
 
 Enemy.types.init = function(assets, data) {
-    for (let i = 0; i < Enemy.types.length; i++)
+    for (let i = 0; i < Enemy.types.length; i++) {
         Enemy.types[i] = new (Enemy.types[i])(assets, data);
+    }
 }
