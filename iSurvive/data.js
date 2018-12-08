@@ -26,8 +26,8 @@ let worldData = {
             speed: 0.1,
             jumpSize: 0.111111111111,
             followRadius: 0,
-            max: 2,
-            chance: 1,
+            max: 5,
+            chance: 0.7,
             theme: [255, 165, 0]
         },
         dragon: {
@@ -35,8 +35,8 @@ let worldData = {
             speed: 0.2,
             jumpSize: 0.111111111111,
             followRadius: 0,
-            max: 1,
-            chance: 1,
+            max: 2,
+            chance: 0.3,
             theme: [244, 67, 54]
         }
     },

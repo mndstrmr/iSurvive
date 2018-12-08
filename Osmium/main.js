@@ -373,7 +373,8 @@ const Osmium = {
         uniform: function(min, max) {
             return Math.random() * (max - min + 1) + min;
         }
-    }
+    },
+    Audio: Audio
 };
 Osmium.KeyHandler = class extends Osmium.EventEmitter {
     constructor(element) {
@@ -397,6 +398,41 @@ Osmium.KeyHandler = class extends Osmium.EventEmitter {
     }
 
     isKeyPressed(code) {
+        return this.data[code] != null;
+    }
+
+    close(code) {
+        delete this.data[code];
+    }
+
+    tick() {
+        for (const key in this.data) {
+            this.trigger('tick:' + key);
+        }
+    }
+}
+Osmium.MouseHandler = class extends Osmium.EventEmitter {
+    constructor(element) {
+        super();
+
+        this.element = element;
+        this.data = {};
+
+        const that = this;
+        this.element.addEventListener('mousedown', function(event) {
+            that.data[event.button] = true;
+
+            that.trigger('down:' + event.button, event);
+        });
+
+        this.element.addEventListener('mouseup', function(event) {
+            that.close(event.button);
+
+            that.trigger('up:' + event.button, event);
+        });
+    }
+
+    isButtonPressed(code) {
         return this.data[code] != null;
     }
 

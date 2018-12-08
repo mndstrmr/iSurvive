@@ -237,6 +237,17 @@ declare module Osmium {
         tick(): void;
     }
 
+    class KeyHandler extends EventEmitter {
+        readonly element: HTMLElement;
+        data: Object;
+
+        constructor(element?: HTMLElement);
+
+        isButtonPressed(code: Number): Boolean;
+        close(code: Number): void;
+        tick(): void;
+    }
+
     module Animation {
         abstract class Animation {
             key: String;

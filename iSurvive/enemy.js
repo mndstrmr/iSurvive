@@ -3,14 +3,13 @@ class Enemy {
         this.element = new Osmium.CTXElement.Group();
 
         this.element.position.set(x * blockSize, 0);
-        this.element.renderPosition = 1;
-
         this.image = new Osmium.CTXElement.Image(
             data.image,
             null, null,
             new Osmium.Vector(blockSize * window.devicePixelRatio * data.width, blockSize * data.height * window.devicePixelRatio)
         );
         this.element.add(this.image);
+        this.element.renderPosition = 2;
 
         this.position = this.element.position.clone();
         this.physicsElement = new Osmium.Utils.PhysicsEngine.PhysicsElement({
@@ -106,15 +105,23 @@ class Enemy {
                         (element) => false
                     );                    
                     physicsElement.velocity.y = this.physicsElement.velocity.y * (player.range * 0.001);
-                    physicsElement.velocity.x = this.physicsElement.velocity.x * (player.range * 0.1);
+                    physicsElement.velocity.x = this.physicsElement.velocity.x * (player.range * 0.05);
                     this.physicsEngine.add(physicsElement);
+
+                    pixel.physicsElement = physicsElement;
                 }
             }
         }
 
         setTimeout(() => {
-            this.element.requestDelete()
+            this.element.requestDelete();
             Enemy.loaded.splice(Enemy.loaded.indexOf(this), 1);
+            
+            for (const element of this.element.elements) {
+                this.physicsEngine.physicsElements.splice(this.physicsEngine.physicsElements.indexOf(element.physicsElement), 1);
+            }
+
+            this.physicsEngine.physicsElements.splice(this.physicsEngine.physicsElements.indexOf(this.physicsElement), 1);
         }, 3000);
     }
 }

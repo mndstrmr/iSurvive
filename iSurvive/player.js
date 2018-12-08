@@ -37,6 +37,10 @@ class Player {
         this.inventory = [];
     }
 
+    boost() {
+        this.physicsElement.velocity = this.physicsElement.velocity.multiplyScalar(3);
+    }
+
     move(direction) {
         direction *= 1 - (this.physicsElement.isGrounded * 0.09);
         this.physicsElement.velocity.x += direction * 0.05;
@@ -63,7 +67,9 @@ class Player {
 
     attemptKill(enemies) {
         for (const enemy of enemies) {
-            if (enemy.position.distanceTo(this.position) <= this.range) {
+            // console.log(enemy.image.image.getWidth());
+            // console.log((enemy.image.getWidth() + enemy.image.gteHeight() * 0.5));
+            if (enemy.position.distanceTo(this.position) <= this.range + ((enemy.image.image.getWidth() + enemy.image.image.getHeight()) * 0.01)) {
                 enemy.kill(this);
             }
         }
