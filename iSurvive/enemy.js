@@ -168,8 +168,8 @@ function simpleEnemyType(name, close) {
 }
 
 Enemy.types = [
-    simpleEnemyType('zombie', (player) => {
-        player.kill('Your brains were eaten by a zombie.');
+    simpleEnemyType('skeleton', (player) => {
+        player.kill('You were smashed to pieces by a skeleton.');
     }),
     simpleEnemyType('dragon', (player) => {
         player.kill('You were burned to death by a dragon.');

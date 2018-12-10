@@ -21,14 +21,14 @@ let worldData = {
         range: 5
     },
     enemies: {
-        zombie: {
+        skeleton: {
             width: 1, height: 2,
             speed: 0.1,
             jumpSize: 0.111111111111,
             followRadius: 0,
             max: 5,
             chance: 0.7,
-            theme: [255, 165, 0]
+            theme: [229, 231, 233]
         },
         dragon: {
             width: 2, height: 2,

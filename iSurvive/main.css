@@ -34,3 +34,43 @@ body {
 .hidden {
     opacity: 0;
 }
+
+.hidden .button {
+    pointer-events: none !important;
+}
+
+.button {
+    cursor: pointer;
+
+    border: solid white 1px;
+    color: white;
+
+    display: block;
+    margin: 0 auto;
+    width: 40%;
+
+    pointer-events: all;
+
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+
+    padding: 0.3em 0;
+}
+
+.button:hover {
+    background-color: white;
+    color: rgb(231, 76, 60);
+}
+
+.credits {
+    position: absolute;
+
+    bottom: 1em;
+    right: 1em;
+
+    text-align: right;
+}
+
+.credits p {
+    margin: 0.3em 0;    
+}

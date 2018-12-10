@@ -22,11 +22,18 @@ keyHandler.on('tick:81', () => player.attemptKill(Enemy.loaded));
 keyHandler.on('tick:65', () => player.move(-player.speed));
 keyHandler.on('tick:68', () => player.move(player.speed));
 
+const ambient = new Audio('assets/music1.m4a');
+ambient.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+document.body.appendChild(ambient);
+document.addEventListener('keydown', function() {
+    if (ambient.paused) ambient.play();
+})
+
 const mouseHandler = new Osmium.MouseHandler(window);
 mouseHandler.on('tick:0', () => player.attemptKill(Enemy.loaded));
-
-// const ambient = new Osmium.Audio('');
-// ambient.play();
 
 Enemy.types.init(assets, worldData);
 game.appendThread(new Osmium.Thread(async function(timeElapsed) {
