@@ -1,3 +1,8 @@
+if ((!/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) || (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+    document.querySelector('.not-chrome').classList.remove('hidden');
+    throw new Error('Not chrome');
+}
+
 const blockSize = window.innerHeight / 30;
 let worldSize = new Osmium.Vector(window.innerWidth, window.innerHeight).divideScalar(blockSize);
 

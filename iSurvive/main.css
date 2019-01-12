@@ -74,3 +74,8 @@ body {
 .credits p {
     margin: 0.3em 0;    
 }
+
+.not-chrome {
+    color: black;
+    font-size: 80%;
+}
