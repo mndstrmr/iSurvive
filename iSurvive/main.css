@@ -78,4 +78,5 @@ body {
 .not-chrome {
     color: black;
     font-size: 80%;
+    width: 90%
 }
