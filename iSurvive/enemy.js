@@ -170,16 +170,20 @@ function simpleEnemyType(name, close) {
 }
 
 Enemy.types = [
-    simpleEnemyType('skeleton', (player) => {
-        player.kill('You were smashed to pieces by a skeleton.');
-    }),
-    simpleEnemyType('dragon', (player) => {
-        player.kill('You were burned to death by a dragon.');
-    })
+//     simpleEnemyType('skeleton', (player) => {
+//         player.kill('You were smashed to pieces by a skeleton.');
+//     }),
+//     simpleEnemyType('dragon', (player) => {
+//         player.kill('You were burned to death by a dragon.');
+//     })
 ]
 
-Enemy.types.init = function(assets, data) {
-    for (let i = 0; i < Enemy.types.length; i++) {
-        Enemy.types[i] = new (Enemy.types[i])(assets, data);
+Enemy.init = function(assets, data) {
+    for (let i = 0; i < Object.keys(data.enemies).length; i++) {
+        const key = Object.keys(data.enemies)[i];
+
+        Enemy.types[i] = new (simpleEnemyType(key, (player) => {
+            player.kill(data.enemies[key].message);
+        }))(assets, data);
     }
 }

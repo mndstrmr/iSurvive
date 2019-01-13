@@ -40,7 +40,7 @@ document.addEventListener('keydown', function() {
 const mouseHandler = new Osmium.MouseHandler(window);
 mouseHandler.on('tick:0', () => player.attemptKill(Enemy.loaded));
 
-Enemy.types.init(assets, worldData);
+Enemy.init(assets, worldData);
 game.appendThread(new Osmium.Thread(async function(timeElapsed) {
     world.update();
     keyHandler.tick();

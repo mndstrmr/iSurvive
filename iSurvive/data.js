@@ -28,7 +28,8 @@ let worldData = {
             followRadius: 0,
             max: 5,
             chance: 0.7,
-            theme: [229, 231, 233]
+            theme: [229, 231, 233],
+            message: 'You were smashed to pieces by a skeleton'
         },
         dragon: {
             width: 5, height: 4,
@@ -37,7 +38,8 @@ let worldData = {
             followRadius: 0,
             max: 2,
             chance: 0.3,
-            theme: [244, 67, 54]
+            theme: [244, 67, 54],
+            message: 'You were burnt to death by a dragon'
         }
     },
     difficulty: 0.0007
