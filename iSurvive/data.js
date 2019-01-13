@@ -1,5 +1,5 @@
 /*
-                                     .__                    
+                                      __                    
 __  _  __ _____    _______    ____   |__|   ____      ____  
 \ \/ \/ / \__  \   \_  __ \  /    \  |  |  /    \    / ___\ 
  \     /   / __ \_  |  | \/ |   |  \ |  | |   |  \  / /_/  >
@@ -17,23 +17,23 @@ let worldData = {
     gravity: 0.005,
     player: {
         speed: 0.1,
-        jumpSize: 0.1111111111111111,
-        range: 5
+        jumpSize: 1 / 9,
+        range: 7
     },
     enemies: {
         skeleton: {
-            width: 1, height: 2,
+            width: 0.5, height: 2,
             speed: 0.1,
-            jumpSize: 0.111111111111,
+            jumpSize: 1 / 9,
             followRadius: 0,
             max: 5,
             chance: 0.7,
             theme: [229, 231, 233]
         },
         dragon: {
-            width: 2, height: 2,
+            width: 5, height: 4,
             speed: 0.2,
-            jumpSize: 0.111111111111,
+            jumpSize: 1 / 9,
             followRadius: 0,
             max: 2,
             chance: 0.3,
@@ -45,13 +45,35 @@ let worldData = {
 
 // Defaults, in case you mess something up:
 /*
-    let worldData = {
-        clouds: 3,
-        sky: [[214, 234, 248], [28, 40, 51]],
-        gravity: 0.005,
-        player: {
+let worldData = {
+    clouds: 3,
+    sky: [[214, 234, 248], [28, 40, 51]],
+    gravity: 0.005,
+    player: {
+        speed: 0.1,
+        jumpSize: 1 / 9,
+        range: 7
+    },
+    enemies: {
+        skeleton: {
+            width: 0.5, height: 2,
             speed: 0.1,
-            jumpSize: 0.1111111111111111
+            jumpSize: 1 / 9,
+            followRadius: 0,
+            max: 5,
+            chance: 0.7,
+            theme: [229, 231, 233]
+        },
+        dragon: {
+            width: 5, height: 4,
+            speed: 0.2,
+            jumpSize: 1 / 9,
+            followRadius: 0,
+            max: 2,
+            chance: 0.3,
+            theme: [244, 67, 54]
         }
-    };
+    },
+    difficulty: 0.0007
+};
 */

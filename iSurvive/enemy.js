@@ -87,11 +87,13 @@ class Enemy {
         this.dead = true;
         this.physicsElement.active = false;
 
-        for (let x = 0; x < this.data.width * 3; x++) {
-            for (let y = 0; y < this.data.height * 3; y++) {
-                if (Math.random() >= 0.3) {
-                    const pixel = new Osmium.CTXElement.Simple.Rectangle((blockSize / 3) * window.devicePixelRatio, (blockSize / 3) * window.devicePixelRatio);
-                    pixel.position.set((blockSize / 3) * x, (blockSize / 3) * y);
+        const smallSize = 5;
+
+        for (let x = 0; x < this.data.width * smallSize; x++) {
+            for (let y = 0; y < this.data.height * smallSize; y++) {
+                if (Math.random() >= 0.8) {
+                    const pixel = new Osmium.CTXElement.Simple.Rectangle((blockSize / smallSize) * window.devicePixelRatio, (blockSize / smallSize) * window.devicePixelRatio);
+                    pixel.position.set((blockSize / smallSize) * x, (blockSize / smallSize) * y);
                     pixel.fill.color = Osmium.Color.fromArray(this.data.theme).randomise(30);
                     pixel.stroke.match(pixel.fill);
                     this.element.add(pixel);
