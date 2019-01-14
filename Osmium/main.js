@@ -163,6 +163,10 @@ const Osmium = {
                 })
             });
         }
+
+        wait(cb) {
+            this.getDomElement().onload = cb;
+        }
     },
     Utils: {},
     Element: class {

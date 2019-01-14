@@ -1,40 +1,47 @@
 class Player {
     constructor(game, blockSize, playerData, speedInfo) {
-        this.element = new Osmium.CTXElement.Image(
-            new Osmium.Image(playerData.path),
-            null, null,
-            new Osmium.Vector(blockSize * window.devicePixelRatio, blockSize * 2 * window.devicePixelRatio)
-        );
+        const image = new Osmium.Image(playerData.path);
+        image.wait(() => {
+            console.log((image.getWidth() / (image.getHeight() / 2)) * blockSize * window.devicePixelRatio);
 
-        this.element.position.set(
-            game.width * 0.5,
-            game.height * 0.7
-        );
+            console.log((image.getHeight() / 2))
 
-        game.add(this.element);
-
-        this.position = new Osmium.Vector(0, 0);
-        this.physicsElement = new Osmium.Utils.PhysicsEngine.PhysicsElement({
-            position: this.position,
-            rotation: 0
-        }, new Osmium.Polygon([
-            new Osmium.Vector(0, 0),
-            new Osmium.Vector(0, blockSize * 2),
-            new Osmium.Vector(blockSize, blockSize * 2),
-            new Osmium.Vector(blockSize, 0)
-        ]), {}, (element) => {
-            return !element.isEnemy;
-        });
-
-        physicsEngine.add(this.physicsElement);
-
-        this.speed = blockSize * speedInfo.speed;
-        this.jumpSize = blockSize * speedInfo.jumpSize;
-        this.range = blockSize * speedInfo.range;
-
-        this.element.renderPosition = Infinity;
-
-        this.inventory = [];
+            this.element = new Osmium.CTXElement.Image(
+                image,
+                null, null,
+                new Osmium.Vector((image.getWidth() / (image.getHeight() / 2)) * blockSize * window.devicePixelRatio, blockSize * 2 * window.devicePixelRatio)
+            );
+    
+            this.element.position.set(
+                game.width * 0.5,
+                game.height * 0.7
+            );
+    
+            game.add(this.element);
+    
+            this.position = new Osmium.Vector(0, 0);
+            this.physicsElement = new Osmium.Utils.PhysicsEngine.PhysicsElement({
+                position: this.position,
+                rotation: 0
+            }, new Osmium.Polygon([
+                new Osmium.Vector(0, 0),
+                new Osmium.Vector(0, blockSize * 2),
+                new Osmium.Vector(blockSize, blockSize * 2),
+                new Osmium.Vector(blockSize, 0)
+            ]), {}, (element) => {
+                return !element.isEnemy;
+            });
+    
+            physicsEngine.add(this.physicsElement);
+    
+            this.speed = blockSize * speedInfo.speed;
+            this.jumpSize = blockSize * speedInfo.jumpSize;
+            this.range = blockSize * speedInfo.range;
+    
+            this.element.renderPosition = Infinity;
+    
+            this.inventory = [];
+        })
     }
 
     boost() {

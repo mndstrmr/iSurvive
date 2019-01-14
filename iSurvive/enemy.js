@@ -45,7 +45,7 @@ class Enemy {
     }
 
     update(player, offset) {
-        if (!this.dead) {
+        if (!this.dead && window.location.href.indexOf('nodeath') == -1) {
             const distance = player.position.distanceTo(this.position) / blockSize;
             const close = distance < this.followRadius;
 

@@ -29,7 +29,7 @@ DO NOT TOUCH any of the actual source code of the game, if you do - and then you
 1. Design the image for your entity
 2. Replace the file in `assets` with the name of the entity you want to change with one of the same name, but with your new image
 
-# How to edit an enities meta data
+# How to edit an enity's meta data
 1. Go to data.js
 2. Find the segment that looks like this:
 
