@@ -11,7 +11,7 @@ __  _  __ _____    _______    ____   |__|   ____      ____
 DO NOT TOUCH any of the actual source code of the game, if you do - and then you break it, then it is your problem. :)
 - Louis-Emile Ploix
 
-# How to downloda the game source
+# How to download the game source
 1. Click on the `Clone or download` button, then `Download Zip`.
 2. If asked where to save the zip file, put it somehwere you can find it gain - maybe make a folder called `iMediaISurviveSRC` on your account.
 3. Next find that file on the file explorer and right click it, find the botton labeled `7zip`, hover over it and you should see another panel open. Click on `extract to iSurvive-master/`.
