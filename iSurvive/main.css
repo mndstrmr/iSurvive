@@ -1,5 +1,5 @@
 body {
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Work Sans', Futura, sans-serif;
     color: white;
 }
 
@@ -7,11 +7,40 @@ body {
     transition: opacity 0.5s;
     -webkit-transition: opacity 0.5s;
     pointer-events: none;
+
+    z-index: 1000;
 }
 
 .death {
     background-color: rgba(231, 76, 60, 0.5);
-    z-index: 1000;
+}
+
+.death .button:hover {
+    color: rgb(231, 76, 60);
+}
+
+.before {
+    background-color: rgba(41, 128, 185, 0.8);
+}
+
+.before .button:hover {
+    color: rgb(41, 128, 185);
+}
+
+code {
+    color: rgb(41, 128, 185);
+    background-color: white;
+    padding: 0.1em 0.5em;
+    border-radius: 0.2em;
+}
+
+a {
+    color: white;
+    font-weight: 900;
+    text-decoration: none;
+    cursor: pointer;
+
+    pointer-events: all;
 }
 
 .ui .center {
@@ -35,7 +64,7 @@ body {
     opacity: 0;
 }
 
-.hidden .button {
+.hidden * {
     pointer-events: none !important;
 }
 
@@ -59,7 +88,6 @@ body {
 
 .button:hover {
     background-color: white;
-    color: rgb(231, 76, 60);
 }
 
 .credits {

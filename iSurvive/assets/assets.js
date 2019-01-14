@@ -32,6 +32,40 @@ const assets = {
         },
         dragon: {
             path: 'assets/dragon.png'
+        },
+        serpent: {
+            path: 'assets/serpent.png'
         }
     }
 };
+
+// The original:
+/*
+const assets = {
+    planets: {
+        sun: {
+            path: 'assets/sun.png'
+        },
+        moon: {
+            path: 'assets/moon.png'
+        }
+    },
+    cloud: {
+        color: Osmium.Color.nice.CLOUD
+    },
+    player: {
+        path: 'assets/player.png'
+    },
+    enemies: {
+        skeleton: {
+            path: 'assets/skeleton.png'
+        },
+        dragon: {
+            path: 'assets/dragon.png'
+        },
+        serpent: {
+            path: 'assets/serpent.png'
+        }
+    }
+}; 
+*/
