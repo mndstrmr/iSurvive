@@ -5,6 +5,15 @@ if ((!/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor))
 }
 
 let game, physicsEngine, player, blockSize;
+const keyHandler = new Osmium.KeyHandler(window);
+
+keyHandler.on('down:13', () => {
+    if (game == null) {
+        document.querySelector('.before .button').click();
+    } else if (!game.mainThread.isAlive()) {
+        document.querySelector('.death .button').click();
+    }
+});
 
 function load() {
     blockSize = window.innerHeight / 30;
@@ -22,7 +31,6 @@ function load() {
 
     player = new Player(game, blockSize, assets.player, worldData.player);
 
-    const keyHandler = new Osmium.KeyHandler(window);
     keyHandler.on('down:32', () => player.jump());
     keyHandler.on('down:16', () => player.boost());
 

@@ -72,8 +72,6 @@ class Player {
 
     attemptKill(enemies) {
         for (const enemy of enemies) {
-            // console.log(enemy.image.image.getWidth());
-            // console.log((enemy.image.getWidth() + enemy.image.gteHeight() * 0.5));
             if (enemy.position.distanceTo(this.position) <= this.range + ((enemy.image.image.getWidth() + enemy.image.image.getHeight()) * 0.01)) {
                 enemy.kill(this);
             }

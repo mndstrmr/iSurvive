@@ -356,6 +356,10 @@ const Osmium = {
             this.interval = null;
         }
 
+        isAlive() {
+            return this.interval != null;
+        }
+
         start() {
             const that = this;
             let start = new Date().getTime();
