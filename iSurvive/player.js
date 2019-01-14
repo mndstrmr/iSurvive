@@ -2,14 +2,12 @@ class Player {
     constructor(game, blockSize, playerData, speedInfo) {
         const image = new Osmium.Image(playerData.path);
         image.wait(() => {
-            console.log((image.getWidth() / (image.getHeight() / 2)) * blockSize * window.devicePixelRatio);
-
-            console.log((image.getHeight() / 2))
+            const width = (image.getWidth() / (image.getHeight() / 2));
 
             this.element = new Osmium.CTXElement.Image(
                 image,
                 null, null,
-                new Osmium.Vector((image.getWidth() / (image.getHeight() / 2)) * blockSize * window.devicePixelRatio, blockSize * 2 * window.devicePixelRatio)
+                new Osmium.Vector(width * blockSize * window.devicePixelRatio, blockSize * 2 * window.devicePixelRatio)
             );
     
             this.element.position.set(
@@ -26,8 +24,8 @@ class Player {
             }, new Osmium.Polygon([
                 new Osmium.Vector(0, 0),
                 new Osmium.Vector(0, blockSize * 2),
-                new Osmium.Vector(blockSize, blockSize * 2),
-                new Osmium.Vector(blockSize, 0)
+                new Osmium.Vector(blockSize * width, blockSize * 2),
+                new Osmium.Vector(blockSize * width, 0)
             ]), {}, (element) => {
                 return !element.isEnemy;
             });
