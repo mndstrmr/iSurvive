@@ -42,7 +42,7 @@ let worldData = {
             message: 'You were burnt to death by a dragon'
         },
         serpent: {
-            width: 2.5, height: 1,
+            width: 3.75, height: 1.5,
             speed: 0.2,
             jumpSize: 1 / 9,
             followRadius: 0,

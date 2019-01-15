@@ -1,5 +1,5 @@
 class Player {
-    constructor(game, blockSize, playerData, speedInfo) {
+    constructor(game, blockSize, playerData, speedInfo, complete) {
         const image = new Osmium.Image(playerData.path);
         image.wait(() => {
             const width = (image.getWidth() / (image.getHeight() / 2));
@@ -39,6 +39,8 @@ class Player {
             this.element.renderPosition = Infinity;
     
             this.inventory = [];
+
+            complete(this);
         })
     }
 

@@ -47,6 +47,12 @@ Osmium.WebGame2D = class {
         if (element.isHTMLElement) element.add(this.parent);
     }
 
+    sort() {
+        this.renderedElements.sort(function(a, b) {
+            return a.renderPosition - b.renderPosition;
+        });
+    }
+
     remove(element) {
         const index = this.renderedElements.indexOf(element);
 

@@ -45,7 +45,7 @@ class Enemy {
     }
 
     update(player, offset) {
-        if (!this.dead && window.location.href.indexOf('nodeath') == -1) {
+        if (!this.dead && !Enemy.noDeath) {
             const distance = player.position.distanceTo(this.position) / blockSize;
             const close = distance < this.followRadius;
 
@@ -86,6 +86,11 @@ class Enemy {
         this.element.elements.splice(0, 1);
         this.dead = true;
         this.physicsElement.active = false;
+        this.element.renderPosition = -0.5;
+
+        game.sort();
+        const score = document.querySelector('.score');
+        score.innerHTML = parseInt(score.innerHTML) + 1;
 
         const smallSize = 5;
 
@@ -168,6 +173,7 @@ function simpleEnemyType(name, close) {
         }
     }
 }
+Enemy.noDeath = window.location.href.indexOf('nodeath') != -1;
 
 Enemy.types = [];
 

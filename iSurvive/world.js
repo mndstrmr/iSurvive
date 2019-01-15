@@ -92,9 +92,13 @@ class World {
                 img.size = new Osmium.Vector(ratio * image.getWidth(), ratio * image.getHeight());
 
                 img.offset.x -= img.size.x * 0.5;
+                img.renderPosition = -i;
                 
                 this.layers.push(img);
-            } else break;
+            } else {
+                console.log('%cAlso, this ⬆ net::ERR_FILE_NOT_FOUND error is totally normal, it should be there', 'color: rgb(41, 128, 185); font-family: \'Work Sans\', Futura, sans-serif; font-size: 150%;');
+                break;
+            };
         }
 
         for (let i = this.layers.length - 1; i >= 0; i--) game.add(this.layers[i]);
@@ -126,8 +130,8 @@ class World {
             new Osmium.Vector(width, width)
         );
         planet.width = planet.height = width;
-
         planet.position.set(this.game.width * 0.75, this.game.height + (planet.height / 2));
+        planet.renderPosition = -Infinity;
 
         this.game.add(planet);
 

@@ -27,6 +27,26 @@ body {
     color: rgb(41, 128, 185);
 }
 
+.score-container {
+    color: white;
+    z-index: 1000;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    margin: 0;
+    padding: 0.3em 0.3em;
+
+    font-size: 200%;
+
+    font-weight: 200;
+}
+
+.score {
+    font-weight: 900;
+}
+
 code {
     color: rgb(41, 128, 185);
     background-color: white;
