@@ -37,7 +37,7 @@ function load() {
         keyHandler.on('down:32', () => player.jump());
         keyHandler.on('down:16', () => player.boost());
 
-        keyHandler.on('tick:81', () => player.attemptKill(Enemy.loaded));
+        keyHandler.on('down:81', () => player.attemptKill(Enemy.loaded));
 
         keyHandler.on('tick:65', () => player.move(-player.speed));
         keyHandler.on('tick:68', () => player.move(player.speed));
@@ -51,7 +51,14 @@ function load() {
         ambient.play();
 
         const mouseHandler = new Osmium.MouseHandler(window);
-        mouseHandler.on('tick:0', () => player.attemptKill(Enemy.loaded));
+
+        let last = Date.now();
+        mouseHandler.on('down:0', () => {
+            if (Date.now() - last > 150) {
+                player.attemptKill(Enemy.loaded)
+                last = Date.now();
+            }
+        });
 
         Enemy.init(assets, worldData);
         game.appendThread(new Osmium.Thread(async function(timeElapsed) {

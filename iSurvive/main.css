@@ -21,6 +21,7 @@ body {
 
 .before {
     background-color: rgba(41, 128, 185, 0.8);
+    z-index: 2000;
 }
 
 .before .button:hover {
@@ -29,7 +30,7 @@ body {
 
 .score-container {
     color: white;
-    z-index: 1000;
+    z-index: 1500;
 
     position: fixed;
     top: 0;
