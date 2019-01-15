@@ -96,7 +96,7 @@ class Enemy {
 
         for (let x = 0; x < this.data.width * smallSize; x++) {
             for (let y = 0; y < this.data.height * smallSize; y++) {
-                if (Math.random() >= 0.8) {
+                if (Math.random() >= 0.9) {
                     const pixel = new Osmium.CTXElement.Simple.Rectangle((blockSize / smallSize) * window.devicePixelRatio, (blockSize / smallSize) * window.devicePixelRatio);
                     pixel.position.set((blockSize / smallSize) * x, (blockSize / smallSize) * y);
                     pixel.fill.color = Osmium.Color.fromArray(this.data.theme).randomise(30);
