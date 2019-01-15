@@ -2,11 +2,11 @@ console.log('%cWARNING', 'color: red; font-family: \'Work Sans\', Futura, sans-s
 console.log('%cMake sure you make a backup of the game before you change anything in here', 'color: rgb(41, 128, 185); font-family: \'Work Sans\', Futura, sans-serif; font-size: 150%;');
 console.log('');
 
-if ((!/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) || (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
-    document.querySelector('.not-chrome').classList.remove('hidden');
-    document.querySelector('.before').classList.add('hidden');
-    throw new Error('Not chrome');
-}
+// if ((!/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) || (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+//     document.querySelector('.not-chrome').classList.remove('hidden');
+//     document.querySelector('.before').classList.add('hidden');
+//     throw new Error('Not chrome');
+// }
 
 let game, physicsEngine, player, blockSize;
 const keyHandler = new Osmium.KeyHandler(window);
