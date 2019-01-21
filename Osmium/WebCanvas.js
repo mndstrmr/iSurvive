@@ -32,6 +32,7 @@ Osmium.RenderingContext = class {
     }
     
     clearRect() {
+        console.log(arguments);
         this.ctx.clearRect.apply(this.ctx, arguments);
     }
     
