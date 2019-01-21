@@ -111,14 +111,13 @@ class World {
         const day = Math.cos(this.tick / this.speed) < 0;
 
         this.game.background = this.start.merge(this.end, time);
-
-        if (day) {
-            this.sun.position.y = (((-this.sun.height / 2) + (this.game.height + (this.sun.height * 1.5))) * time) - (this.sun.height / 2);
-            this.moon.hide(); this.sun.show();
-        } else {
-            this.moon.position.y = (((-this.moon.height / 2) + (this.game.height + (this.moon.height * 1.5))) * time) - (this.moon.height / 2);
-            this.sun.hide(); this.moon.show();
-        }
+        
+        if (day) this.moon.hide();
+        else this.sun.hide();
+        
+        const planet = day? this.sun:this.moon;
+        planet.show();
+        planet.position.y = (time * (this.game.height + planet.height)) - planet.height;
     }
 
     createPlanet(data, size) {
