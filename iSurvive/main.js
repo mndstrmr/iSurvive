@@ -41,6 +41,9 @@ function load() {
 
         keyHandler.on('tick:65', () => player.move(-player.speed));
         keyHandler.on('tick:68', () => player.move(player.speed));
+        
+        keyHandler.on('tick:37', () => player.move(-player.speed));
+        keyHandler.on('tick:39', () => player.move(player.speed));
 
         const ambient = new Audio('assets/music1.m4a');
         ambient.addEventListener('ended', function() {
