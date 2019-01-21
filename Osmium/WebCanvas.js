@@ -1,3 +1,33 @@
+Osmium.RenderingContext = class {
+    constructor(ctx) {
+        this.ctx = ctx;
+    }
+    
+    get fillStyle() {
+        return this.ctx.fillStyle;
+    }
+    
+    set fillStyle(val) {
+        return this.ctx.fillStyle = val;
+    }
+    
+    get strokeStyle() {
+        return this.ctx.strokeStyle;
+    }
+    
+    set strokeStyle(val) {
+        return this.ctx.strokeStyle = val;
+    }
+    
+    fillRect() {
+        this.ctx.fillRect.apply(this.ctx, arguments);
+    }
+    
+    clearRect() {
+        this.ctx.clearRect.apply(this.ctx, arguments);
+    }
+}
+
 Osmium.WebGame2D = class {
     constructor(width, height, parent) {
         this.width = width;
