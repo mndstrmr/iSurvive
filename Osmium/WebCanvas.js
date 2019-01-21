@@ -19,12 +19,68 @@ Osmium.RenderingContext = class {
         return this.ctx.strokeStyle = val;
     }
     
+    get strokeWidth() {
+        return this.ctx.strokeWidth;
+    }
+    
+    set strokeWidth(val) {
+        return this.ctx.strokeWidth = val;
+    }
+    
     fillRect() {
         this.ctx.fillRect.apply(this.ctx, arguments);
     }
     
     clearRect() {
         this.ctx.clearRect.apply(this.ctx, arguments);
+    }
+    
+    rotate() {
+        this.ctx.rotate.apply(this.ctx, arguments);
+    }
+    
+    translate() {
+        this.ctx.translate.apply(this.ctx, arguments);
+    }
+    
+    scale() {
+        this.ctx.scale.apply(this.ctx, arguments);
+    }
+    
+    setTransform() {
+        this.ctx.transform.apply(this.ctx, arguments);
+    }
+    
+    stroke() {
+        this.ctx.stroke();
+    }
+    
+    fill() {
+        this.ctx.fill();
+    }
+    
+    beginPath() {
+        this.ctx.beginPath();
+    }
+    
+    closePath() {
+        this.ctx.closePath();
+    }
+    
+    lineTo() {
+        this.ctx.lineTo.apply(this.ctx, arguments);
+    }
+    
+    moveTo() {
+        this.ctx.moveTo.apply(this.ctx, arguments);
+    }
+    
+    arc() {
+        this.ctx.arc.apply(this.ctx, arguments);
+    }
+    
+    drawImage() {
+        this.ctx.drawImage.apply(this.ctx, arguments);
     }
 }
 
@@ -39,7 +95,7 @@ Osmium.WebGame2D = class {
         this.canvas.width = this.width * window.devicePixelRatio;
         this.canvas.height = this.height * window.devicePixelRatio;
 
-        this.ctx = this.canvas.getContext('2d');
+        this.ctx = new Osmium.RenderingContext(this.canvas.getContext('2d'));
 
         this.renderedElements = [];
         
