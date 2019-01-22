@@ -8,7 +8,7 @@ console.log('');
 //     throw new Error('Not chrome');
 // }
 
-let game, physicsEngine, player, blockSize;
+let game, physicsEngine, player, blockSize, world;
 const keyHandler = new Osmium.KeyHandler(window);
 
 keyHandler.on('down:13', () => {
@@ -26,7 +26,7 @@ function load() {
     game = new Osmium.WebGame2D(worldSize.width * blockSize, worldSize.height * blockSize, document.body);
     physicsEngine = new Osmium.Utils.PhysicsEngine.Engine(worldData.gravity);
 
-    const world = new World(game, physicsEngine, assets.planets.sun, assets.planets.moon, worldData.sky);
+    world = new World(game, physicsEngine, assets.planets.sun, assets.planets.moon, worldData.sky);
 
     if (worldData.clouds != 0) {
         const cloudHandler = new CloudHandler(game, assets.cloud);
