@@ -65,7 +65,7 @@ class World {
         this.sun = this.createPlanet(sun, 200);
         this.moon = this.createPlanet(moon, 100);
 
-        this.tick = 20000;
+        this.tick = 25000;
         this.speed = 10000;
 
         this.loadRadius = 5;
