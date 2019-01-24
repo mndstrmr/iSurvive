@@ -71,7 +71,13 @@ class World {
         const that = this;
         window.addEventListener('keydown', function(event) {
             if (event.keyCode == 38) {
-                that.tick += 500;
+                that.tick += 750;
+            }
+        });
+        
+        window.addEventListener('keydown', function(event) {
+            if (event.keyCode == 40) {
+                that.tick -= 750;
             }
         });
 
