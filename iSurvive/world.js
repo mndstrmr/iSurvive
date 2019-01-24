@@ -67,6 +67,18 @@ class World {
 
         this.tick = 25000;
         this.speed = 10000;
+        
+        window.addEventListener('keydown', function(event) {
+            if (event.keyCode == 38) {
+                this.speed -= 5000;
+            }
+        });
+        
+        window.addEventListener('keyup', function(event) {
+            if (event.keyCode == 38) {
+                this.speed += 5000;
+            }
+        });
 
         this.loadRadius = 5;
 
