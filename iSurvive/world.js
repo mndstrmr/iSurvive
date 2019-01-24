@@ -71,7 +71,7 @@ class World {
         const that = this;
         window.addEventListener('keydown', function(event) {
             if (event.keyCode == 38) {
-                that.speed -= 5000;
+                that.speed -= 500;
                 
                 console.log(that.speed)
             }
@@ -79,7 +79,7 @@ class World {
         
         window.addEventListener('keyup', function(event) {
             if (event.keyCode == 38) {
-                that.speed += 5000;
+                that.speed += 500;
                 console.log(that.speed)
             }
         });
