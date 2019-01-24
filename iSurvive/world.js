@@ -71,16 +71,7 @@ class World {
         const that = this;
         window.addEventListener('keydown', function(event) {
             if (event.keyCode == 38) {
-                that.speed -= 500;
-                
-                console.log(that.speed)
-            }
-        });
-        
-        window.addEventListener('keyup', function(event) {
-            if (event.keyCode == 38) {
-                that.speed += 500;
-                console.log(that.speed)
+                that.tick += 500;
             }
         });
 
