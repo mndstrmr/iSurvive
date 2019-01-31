@@ -163,7 +163,7 @@ class World {
 
         for (let i = this.layers.length - 1; i >= 0; i--) {
             const layer = this.layers[i];
-            layer.position = translation.multiplyScalar(0.6 ** i).add({x: 0, y: 20 * i});
+            layer.position = translation.multiplyScalar(0.6 ** i).add({x: 0, y: -20 * i});
         }
 
         if (Chunk.test) Chunk.testGroup.position = translation;
