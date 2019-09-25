@@ -1,15 +1,6 @@
 # iSurvive
-```
-                                      __                    
-__  _  __ _____    _______    ____   |__|   ____      ____  
-\ \/ \/ / \__  \   \_  __ \  /    \  |  |  /    \    / ___\ 
- \     /   / __ \_  |  | \/ |   |  \ |  | |   |  \  / /_/  >
-  \/\_/   (____  /  |__|    |___|  / |__| |___|  /  \___  / 
-               \/                \/            \/  /_____/  
-```
 
-DO NOT TOUCH any of the actual source code of the game, if you do - and then you break it, then it is your problem. :)
-- Louis-Emile Ploix
+# Note that this game was made for graphics editing for an iMedia course.
 
 # How to download the game source
 1. Click on the `Clone or download` button, then `Download Zip`.
